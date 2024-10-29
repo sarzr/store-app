@@ -1,5 +1,5 @@
 export interface IProducts {
-  id?: number;
+  id: number;
   title?: string;
   description?: string;
   category?: string;
@@ -52,4 +52,9 @@ export interface IProducts {
   };
   images?: string[];
   thumbnail?: string;
+  quantity: number;
+}
+
+export interface IProductsRes extends IProducts {
+  addToCart: () => void;
 }

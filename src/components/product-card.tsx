@@ -1,12 +1,13 @@
 import React from "react";
-import { IProducts } from "../types/product.type";
+import { IProductsRes } from "../types/product.type";
 
-export const ProductCard: React.FC<IProducts> = ({
+export const ProductCard: React.FC<IProductsRes> = ({
   title,
   price,
   images,
   stock,
   rating,
+  addToCart,
 }) => {
   return (
     <div className="w-80 flex flex-col items-center justify-center bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -20,7 +21,7 @@ export const ProductCard: React.FC<IProducts> = ({
           {title}
         </h3>
         <h4 className="font-semibold tracking-tight text-gray-900 dark:text-white mt-2">
-          {price}
+          {`${price} $`}
         </h4>
         <h4 className="font-medium tracking-tight text-gray-900 dark:text-white my-1">
           {`${stock} days delivery`}
@@ -78,15 +79,12 @@ export const ProductCard: React.FC<IProducts> = ({
           </span>
         </div>
         <div className="flex items-center justify-between">
-          {/* <span className="text-3xl font-bold text-gray-900 dark:text-white">
-            $599
-          </span> */}
-          <a
-            href="#"
-            className="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          <button
+            onClick={() => addToCart()}
+            className="text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700"
           >
             Add to cart
-          </a>
+          </button>
         </div>
       </div>
     </div>

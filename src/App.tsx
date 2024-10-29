@@ -5,6 +5,7 @@ import { MainLayout } from "./layouts/mainLayout";
 import { Home } from "./pages/home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "./components/errorBoundary";
+import { CartPage } from "./pages/cart-page";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/cart",
+        element: <CartPage />,
       },
     ],
     errorElement: <ErrorBoundary />,
