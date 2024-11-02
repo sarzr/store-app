@@ -1,48 +1,53 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IProductsRes } from "../../types/product.type";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IProducts, IProductsRes } from "../../types/product.type";
 
 export interface IProductList {
   list: IProductsRes[];
   totalQuantity: number;
+  cart: IProductsRes[];
 }
 export const initialState: IProductList = {
   list: [],
   totalQuantity: 0,
+  cart: [],
 };
 
 const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    getProduct: (state, action: PayloadAction<IProducts[]>) => {
+      state.list = [...state.list, ...action.payload];
+    },
     addToCart: (state, action) => {
       state.totalQuantity++;
 
-      const productItem = state.list.find((el) => el.id === action.payload.id);
+      const productItem = state.cart.find((el) => el.id === action.payload.id);
 
       if (productItem) {
-        productItem.quantity++;
+        productItem.quantity!++;
       } else {
-        state.list.push({ ...action.payload, quantity: 1 });
+        state.cart.push({ ...action.payload, quantity: 1 });
       }
     },
     decrease: (state, action) => {
       state.totalQuantity--;
 
-      const productItem = state.list.find((el) => el.id === action.payload.id);
+      const productItem = state.cart.find((el) => el.id === action.payload.id);
 
-      if (productItem && productItem.quantity > 1) {
-        productItem.quantity--;
+      if (productItem && productItem.quantity! > 1) {
+        productItem.quantity!--;
       } else {
-        state.list = state.list.filter((el) => el.id !== action.payload.id);
+        state.cart = state.cart.filter((el) => el.id !== action.payload.id);
       }
     },
     remove: (state, action) => {
-      const productItem = state.list.find((el) => el.id === action.payload.id);
+      const productItem = state.cart.find((el) => el.id === action.payload.id);
 
       if (productItem) {
-        state.list = state.list.filter((el) => el.id !== action.payload.id);
+        state.cart = state.cart.filter((el) => el.id !== action.payload.id);
 
-        state.totalQuantity -= productItem?.quantity;
+        state.totalQuantity -= productItem?.quantity!;
       }
     },
   },

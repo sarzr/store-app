@@ -55,10 +55,10 @@ export const Cart: React.FC<IProducts> = ({
                 className="flex items-center px-2.5 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"
               >
                 <button>
-                  <FiMinus onClick={() => decrease(id)} />
+                  <FiMinus onClick={() => decrease(id!)} />
                 </button>
                 <span className="mx-2.5 text-xs">{quantity}</span>
-                <button onClick={() => add(id)}>
+                <button onClick={() => add(id!)}>
                   <IoMdAdd />
                 </button>
               </button>
@@ -69,7 +69,7 @@ export const Cart: React.FC<IProducts> = ({
         <div className="ml-auto flex flex-col">
           <div className="flex items-start gap-4 justify-end">
             <CiHeart className="w-5 h-5 cursor-pointer fill-gray-400" />
-            <button onClick={() => remove(id)}>
+            <button onClick={() => remove(id!)}>
               <GoTrash className="w-4 h-5 cursor-pointer fill-gray-400" />
             </button>
           </div>
