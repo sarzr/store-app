@@ -4,20 +4,19 @@ import { IProductsRes } from "../types/product.type";
 export const InputFilter: React.FC<IProductsRes> = ({
   brand,
   category,
-  price,
   rating,
   checked,
   onChange,
+  priceLable,
 }) => {
-  const value = [brand, category, price, rating].filter(Boolean).toString();
+  const value = [priceLable, brand, category, rating]
+    .filter(Boolean)
+    .toString();
 
   return (
     <div className="flex gap-3 px-2">
       <input
-        onChange={(e) => {
-          onChange!(e.target.checked);
-          console.log(checked);
-        }}
+        onChange={(e) => onChange!(e.target.checked)}
         type="checkbox"
         checked={checked}
       />

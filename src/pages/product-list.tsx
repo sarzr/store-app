@@ -12,6 +12,7 @@ export const ProductList: React.FC = () => {
     (state) => state.filter.filteredItems
   );
   const getProductsLists = useAppSelector((state) => state.filter.list);
+  const getFilters = useAppSelector((state) => state.filter);
 
   useQuery({
     queryKey: ["get-products"],
@@ -26,36 +27,42 @@ export const ProductList: React.FC = () => {
   });
 
   console.log(getProductsLists);
+  console.log(getFilteredProductsLists, " filtered");
 
   return (
-    <main className="flex gap-6 flex-wrap justify-center my-10">
-      {getFilteredProductsLists.length > 0
-        ? getFilteredProductsLists.map((el) => (
-            <ProductCard
-              key={el.id}
-              id={el.id}
-              price={el.price}
-              stock={el.stock}
-              title={el.title}
-              images={el.images}
-              rating={el.rating}
-              quantity={0}
-              addToCart={() => dispatch(productActions.addToCart(el))}
-            />
-          ))
-        : getProductsLists.map((el) => (
-            <ProductCard
-              key={el.id}
-              id={el.id}
-              price={el.price}
-              stock={el.stock}
-              title={el.title}
-              images={el.images}
-              rating={el.rating}
-              quantity={0}
-              addToCart={() => dispatch(productActions.addToCart(el))}
-            />
-          ))}
+    <main className="flex gap-6 flex-wrap my-10">
+      {getFilters.filters && getFilters.filteredItems.length > 0 ? (
+        getFilters.filteredItems.map((el) => (
+          <ProductCard
+            key={el.id}
+            id={el.id}
+            price={el.price}
+            stock={el.stock}
+            title={el.title}
+            images={el.images}
+            rating={el.rating}
+            quantity={0}
+            addToCart={() => dispatch(productActions.addToCart(el))}
+          />
+        ))
+      ) : (
+        <p className="font-medium">NOT FOUND PRODUCT</p>
+      )}
+
+      {!getFilters.filters &&
+        getFilters.list.map((el) => (
+          <ProductCard
+            key={el.id}
+            id={el.id}
+            price={el.price}
+            stock={el.stock}
+            title={el.title}
+            images={el.images}
+            rating={el.rating}
+            quantity={0}
+            addToCart={() => dispatch(productActions.addToCart(el))}
+          />
+        ))}
     </main>
   );
 };

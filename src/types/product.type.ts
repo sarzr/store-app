@@ -3,7 +3,7 @@ export interface IProducts {
   title?: string;
   description?: string;
   category?: string;
-  price?: string;
+  price?: number;
   discountPercentage?: number;
   rating?: number;
   stock?: number;
@@ -59,4 +59,5 @@ export interface IProducts {
 export interface IProductsRes extends IProducts {
   addToCart?: () => void;
   onChange?: (checked: boolean) => void;
+  priceLable?: string;
 }
