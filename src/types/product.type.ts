@@ -55,6 +55,11 @@ export interface IProducts {
   quantity?: number;
   checked?: boolean;
 }
+export interface IProductParams {
+  total?: number;
+  skip: number;
+  limit: number;
+}
 
 export interface IProductsRes extends IProducts {
   addToCart?: () => void;

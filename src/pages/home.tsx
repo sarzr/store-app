@@ -4,7 +4,7 @@ import { Filter } from "../components/filters";
 
 export const Home: React.FC = () => {
   return (
-    <div className="w-full xl:w-[1440px] mx-auto mt-36 flex gap-6">
+    <div className="w-full xl:w-[1400px] mx-auto mt-32 flex gap-6 z-10">
       <aside>
         <Filter />
       </aside>

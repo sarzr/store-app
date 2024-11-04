@@ -71,87 +71,85 @@ export const Filter: React.FC = () => {
 
   const categories = [...new Set(getProductFilters.map((el) => el.category))];
 
-  console.log(categories, "var mi");
+  const brands = [...new Set(getProductFilters.map((el) => el.brand))];
 
   return (
     <>
-      <div className="bg-white w-80 h-screen overflow-y-auto scrollbar-hide px-6 py-3 rounded-lg mx-4">
-        <div>
-          <div className="flex justify-between mb-2">
-            <p className="text-lg font-medium">Brands</p>
-            <button onClick={toggleBrand}>
-              {isOpenBrand ? (
-                <FiMinus className="w-4 h-4 text-gray-600" />
-              ) : (
-                <IoMdAdd className="w-4 h-4 text-gray-600" />
-              )}
-            </button>
-          </div>
-
-          {getProductFilters.map(
-            (el) =>
-              isOpenBrand &&
-              el.brand && (
-                <InputFilter
-                  key={el.id}
-                  checked={el.brand === selectedBrand}
-                  brand={el.brand}
-                  onChange={() => brandChangeHandler(el.brand!)}
-                />
-              )
-          )}
-          <div className="flex justify-between mt-7 mb-2">
-            <p className="text-lg font-medium">Category</p>
-            <button onClick={toggleCategory}>
-              {isOpenCategory ? (
-                <FiMinus className="w-4 h-4 text-gray-600" />
-              ) : (
-                <IoMdAdd className="w-4 h-4 text-gray-600" />
-              )}
-            </button>
-          </div>
-
-          {categories.map(
-            (el, index) =>
-              isOpenCategory && (
-                <InputFilter
-                  key={index}
-                  category={el}
-                  checked={el === selectedCategory}
-                  onChange={() => categoryChangeHandler(el!)}
-                />
-              )
-          )}
-
-          <div className="flex justify-between mt-7 mb-2">
-            <p className="text-lg font-medium">Price</p>
-            <button
-              onClick={() => {
-                console.log(isOpenPrice);
-                togglePrice();
-                console.log(isOpenPrice);
-              }}
-            >
-              {isOpenPrice ? (
-                <FiMinus className="w-4 h-4 text-gray-600" />
-              ) : (
-                <IoMdAdd className="w-4 h-4 text-gray-600" />
-              )}
-            </button>
-          </div>
-
-          {priceRanges.map(
-            (el, index) =>
-              isOpenPrice && (
-                <InputFilter
-                  key={index}
-                  priceLable={el.label}
-                  checked={el.label === selectedPriceRange}
-                  onChange={() => priceChangeHandler(el.label, el.min, el.max)}
-                />
-              )
-          )}
+      <div className="bg-white w-80 h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide px-6 py-3 rounded-lg mx-4 sticky top-24">
+        <div className="flex justify-between mb-2">
+          <p className="text-lg font-medium">Brands</p>
+          <button onClick={toggleBrand}>
+            {isOpenBrand ? (
+              <FiMinus className="w-4 h-4 text-gray-600" />
+            ) : (
+              <IoMdAdd className="w-4 h-4 text-gray-600" />
+            )}
+          </button>
         </div>
+
+        {brands.map(
+          (el) =>
+            isOpenBrand &&
+            el && (
+              <InputFilter
+                key={el}
+                checked={el === selectedBrand}
+                brand={el}
+                onChange={() => brandChangeHandler(el)}
+              />
+            )
+        )}
+        <div className="flex justify-between mt-7 mb-2">
+          <p className="text-lg font-medium">Category</p>
+          <button onClick={toggleCategory}>
+            {isOpenCategory ? (
+              <FiMinus className="w-4 h-4 text-gray-600" />
+            ) : (
+              <IoMdAdd className="w-4 h-4 text-gray-600" />
+            )}
+          </button>
+        </div>
+
+        {categories.map(
+          (el, index) =>
+            isOpenCategory && (
+              <InputFilter
+                key={index}
+                category={el}
+                checked={el === selectedCategory}
+                onChange={() => categoryChangeHandler(el!)}
+              />
+            )
+        )}
+
+        <div className="flex justify-between mt-7 mb-2">
+          <p className="text-lg font-medium">Price</p>
+          <button
+            onClick={() => {
+              console.log(isOpenPrice);
+              togglePrice();
+              console.log(isOpenPrice);
+            }}
+          >
+            {isOpenPrice ? (
+              <FiMinus className="w-4 h-4 text-gray-600" />
+            ) : (
+              <IoMdAdd className="w-4 h-4 text-gray-600" />
+            )}
+          </button>
+        </div>
+
+        {priceRanges.map(
+          (el, index) =>
+            isOpenPrice && (
+              <InputFilter
+                key={index}
+                priceLable={el.label}
+                checked={el.label === selectedPriceRange}
+                onChange={() => priceChangeHandler(el.label, el.min, el.max)}
+              />
+            )
+        )}
       </div>
     </>
   );

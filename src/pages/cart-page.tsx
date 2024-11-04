@@ -56,29 +56,11 @@ export const CartPage: React.FC = () => {
               <Link to={"/"}>
                 <button
                   type="button"
-                  className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-transparent hover:bg-gray-100 text-gray-800 border border-gray-300 rounded-md"
+                  className="text-sm mt-4 px-4 py-2.5 w-full font-semibold tracking-wide bg-transparent hover:bg-gray-100 text-gray-800 border border-gray-300 rounded-md"
                 >
                   Continue Shopping
                 </button>
               </Link>
-            </div>
-
-            <div className="mt-4 flex flex-wrap justify-center gap-4">
-              <img
-                src="https://readymadeui.com/images/master.webp"
-                alt="card1"
-                className="w-10 object-contain"
-              />
-              <img
-                src="https://readymadeui.com/images/visa.webp"
-                alt="card2"
-                className="w-10 object-contain"
-              />
-              <img
-                src="https://readymadeui.com/images/american-express.webp"
-                alt="card3"
-                className="w-10 object-contain"
-              />
             </div>
           </div>
         </div>
