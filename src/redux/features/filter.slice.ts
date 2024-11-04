@@ -21,17 +21,22 @@ export const initialState: IFilterList = {
   searchValue: "",
 };
 
-function allFilters(state: IFilterList): IProducts[] {
+export function allFilters(state: IFilterList): IProducts[] {
   return state.list.filter((el) => {
     const { brand, category, price } = state.filters;
-    const isBrandMatch = brand ? el.brand === brand : el;
-    const isCategoryMatch = category ? el.category === category : el;
-    const isPriceMatch =
+    const searchValue = state.searchValue.toLowerCase();
+    const existBrand = brand ? el.brand === brand : el;
+    const existCategory = category ? el.category === category : el;
+    const existPrice =
       price && el.price !== undefined
         ? el.price >= price[0] && el.price <= price[1]
         : el;
 
-    return isBrandMatch && isCategoryMatch && isPriceMatch;
+    const existSearch = searchValue
+      ? el.title?.toLowerCase().includes(searchValue.toLowerCase())
+      : el;
+
+    return existBrand && existCategory && existPrice && existSearch;
   });
 }
 
@@ -41,7 +46,7 @@ const filterSlice = createSlice({
   reducers: {
     getFilters: (state, action: PayloadAction<IProducts[]>) => {
       state.list = action.payload;
-      state.filteredItems = allFilters(state);
+      state.filteredItems = action.payload;
     },
     setPrice: (state, action: PayloadAction<[number, number]>) => {
       state.filters.price = action.payload;
@@ -60,9 +65,6 @@ const filterSlice = createSlice({
       state.filteredItems = allFilters(state).filter((el) =>
         el.title?.toLowerCase().includes(state.searchValue.toLowerCase())
       );
-    },
-    removeSearch: (state) => {
-      state.searchValue = "";
     },
   },
 });

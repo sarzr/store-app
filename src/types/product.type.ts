@@ -64,5 +64,5 @@ export interface IProductParams {
 export interface IProductsRes extends IProducts {
   addToCart?: () => void;
   onChange?: (checked: boolean) => void;
-  priceLable?: string;
+  priceLabel?: string;
 }

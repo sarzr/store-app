@@ -6,6 +6,7 @@ import { Home } from "./pages/home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "./components/errorBoundary";
 import { CartPage } from "./pages/cart-page";
+import Checkout from "./pages/checkout";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <CartPage />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
     ],
     errorElement: <ErrorBoundary />,

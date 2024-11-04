@@ -6,9 +6,11 @@ import { Link } from "react-router-dom";
 export const CartPage: React.FC = () => {
   const productItems = useAppSelector((state) => state.products.cart);
 
+  const productPrice = useAppSelector((state) => state.products.totalPrice);
+
   return (
     <>
-      <div className="font-sans max-w-[1200px] mx-auto p-4 pt-28 bg-gray-50 mb-8">
+      <div className="font-sans max-w-[1200px] lg:mx-auto p-4 pt-28 mb-8 mx-5">
         <h1 className="text-2xl font-bold text-gray-700">Your Cart</h1>
         <div className="grid md:grid-cols-3 gap-12 mt-8">
           <div className="md:col-span-2 space-y-8">
@@ -32,7 +34,10 @@ export const CartPage: React.FC = () => {
           <div className="bg-white rounded-md px-4 py-6 h-max shadow-md">
             <ul className="text-gray-800 space-y-4">
               <li className="flex flex-wrap gap-4 text-sm">
-                Subtotal <span className="ml-auto font-bold">$200.00</span>
+                Subtotal
+                <span className="ml-auto font-bold">{`$${parseFloat(
+                  productPrice.toFixed(2)
+                )}`}</span>
               </li>
               <li className="flex flex-wrap gap-4 text-sm">
                 Shipping <span className="ml-auto font-bold">$2.00</span>
@@ -42,17 +47,22 @@ export const CartPage: React.FC = () => {
               </li>
               <hr className="border-gray-300" />
               <li className="flex flex-wrap gap-4 text-sm font-bold">
-                Total <span className="ml-auto">$206.00</span>
+                Total{" "}
+                <span className="ml-auto">{`$${parseFloat(
+                  productPrice.toFixed(2)
+                )}`}</span>
               </li>
             </ul>
 
             <div className="mt-8 space-y-2">
-              <button
-                type="button"
-                className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-gray-800 hover:bg-gray-900 text-white rounded-md"
-              >
-                Buy Now
-              </button>
+              <Link to={"/checkout"}>
+                <button
+                  type="button"
+                  className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-gray-800 hover:bg-gray-900 text-white rounded-md"
+                >
+                  Checkout
+                </button>
+              </Link>
               <Link to={"/"}>
                 <button
                   type="button"

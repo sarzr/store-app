@@ -144,7 +144,7 @@ export const Filter: React.FC = () => {
             isOpenPrice && (
               <InputFilter
                 key={index}
-                priceLable={el.label}
+                priceLabel={el.label}
                 checked={el.label === selectedPriceRange}
                 onChange={() => priceChangeHandler(el.label, el.min, el.max)}
               />

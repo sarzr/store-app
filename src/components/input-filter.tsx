@@ -7,9 +7,9 @@ export const InputFilter: React.FC<IProductsRes> = ({
   rating,
   checked,
   onChange,
-  priceLable,
+  priceLabel,
 }) => {
-  const value = [priceLable, brand, category, rating]
+  const value = [priceLabel, brand, category, rating]
     .filter(Boolean)
     .toString();
 
