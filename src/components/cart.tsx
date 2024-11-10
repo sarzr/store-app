@@ -31,7 +31,7 @@ export const Cart: React.FC<IProducts> = ({
 
   return (
     <>
-      <div className="flex gap-4 bg-white px-4 py-6 rounded-md shadow-md">
+      <div className="flex gap-4 bg-white px-4 py-6 rounded-md shadow-md flex-wrap sm:flex-nowrap">
         <div className="flex gap-4">
           <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
             <img
@@ -43,7 +43,9 @@ export const Cart: React.FC<IProducts> = ({
 
           <div className="flex flex-col gap-7">
             <div>
-              <h3 className="text-lg font-bold text-gray-600">{title}</h3>
+              <h3 className="text-base md:text-lg font-bold text-gray-600 truncate">
+                {title}
+              </h3>
               <p className="mt-1.5 text-sm font-semibold text-gray-500">
                 {category}
               </p>
@@ -66,7 +68,7 @@ export const Cart: React.FC<IProducts> = ({
           </div>
         </div>
 
-        <div className="ml-auto flex flex-col">
+        <div className="ml-auto flex sm:flex-col justify-between">
           <div className="flex items-start gap-4 justify-end">
             <CiHeart className="w-5 h-5 cursor-pointer fill-gray-400" />
             <button onClick={() => remove(id!)}>

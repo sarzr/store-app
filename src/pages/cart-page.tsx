@@ -55,7 +55,7 @@ export const CartPage: React.FC = () => {
             </ul>
 
             <div className="mt-8 space-y-2">
-              <Link to={"/checkout"}>
+              <Link to={productItems.length === 0 ? "" : "/checkout"}>
                 <button
                   type="button"
                   className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-gray-800 hover:bg-gray-900 text-white rounded-md"
@@ -63,6 +63,13 @@ export const CartPage: React.FC = () => {
                   Checkout
                 </button>
               </Link>
+              {productItems.length === 0 ? (
+                <p className="text-red-600 mt-2 text-xs font-medium">
+                  shopping cart is empty
+                </p>
+              ) : (
+                ""
+              )}
               <Link to={"/"}>
                 <button
                   type="button"

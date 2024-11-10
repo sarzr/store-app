@@ -11,7 +11,6 @@ const InputSearch: React.FC = () => {
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-    console.log(value);
   };
 
   React.useEffect(() => {
@@ -21,7 +20,7 @@ const InputSearch: React.FC = () => {
   return (
     <input
       type="text"
-      className="rounded w-96 h-9 outline-none px-3"
+      className="rounded lg:w-96 h-9 outline-none px-3 w-1/2"
       placeholder="Search a product..."
       value={value}
       onChange={onChangeHandler}

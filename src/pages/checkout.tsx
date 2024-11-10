@@ -10,10 +10,10 @@ const Checkout: React.FC = () => {
   const productPrice = useAppSelector((state) => state.products.totalPrice);
 
   return (
-    <div className="mt-32 mx-5 max-w-[1200px] xl:mx-auto flex gap-10 justify-center">
+    <div className="mt-32 mx-5 max-w-[1200px] xl:mx-auto flex flex-col md:flex-row justify-center">
       <UserForm />
 
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full md:w-1/3">
         {productItems.length === 0 ? (
           <p className="text-gray-600 font-medium">Your cart is empty</p>
         ) : (

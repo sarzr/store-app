@@ -3,6 +3,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputForm from "./input-form";
 import { validationInputs } from "../validations/form.validations";
+import Modal from "./modal";
 
 export interface IForm {
   firstName: string;
@@ -14,20 +15,26 @@ export interface IForm {
 }
 
 const UserForm: React.FC = () => {
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [formData, setFormData] = React.useState<IForm>();
+
   const { control, handleSubmit } = useForm<IForm>({
     mode: "all",
     resolver: zodResolver(validationInputs),
   });
 
-  const onSubmitHandler: SubmitHandler<IForm> = (data) => console.log(data);
+  const onSubmitHandler: SubmitHandler<IForm> = (data) => {
+    console.log(data);
+    setFormData(data);
+  };
 
   return (
-    <div className="w-[70%]">
+    <div className="w-full md:w-[70%]">
       <h1 className="text-2xl font-bold text-gray-700 mb-4">
         Your Information
       </h1>
       <form onSubmit={handleSubmit(onSubmitHandler)}>
-        <div className="flex w-[90%] gap-4">
+        <div className="flex w-full md:w-[90%] gap-4">
           <Controller
             control={control}
             name={"firstName"}
@@ -71,7 +78,7 @@ const UserForm: React.FC = () => {
             );
           }}
         />
-        <div className="flex gap-4 w-[90%]">
+        <div className="flex gap-4 w-full md:w-[90%]">
           <Controller
             control={control}
             name={"phoneNumber"}
@@ -116,7 +123,15 @@ const UserForm: React.FC = () => {
             );
           }}
         />
+        <button
+          onClick={() => setIsOpen(true)}
+          className="bg-gray-800 text-white mt-10 font-medium text-sm w-full md:w-[90%] py-2 px-6 rounded-md"
+          type="submit"
+        >
+          Submit
+        </button>
       </form>
+      {isOpen && formData && <Modal data={formData} close={setIsOpen} />}
     </div>
   );
 };

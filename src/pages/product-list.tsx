@@ -1,66 +1,33 @@
 import React from "react";
 import { ProductCard } from "../components/product-card";
-import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "../apis/product.api";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { productActions } from "../redux/features/product.slice";
-import { filterActions } from "../redux/features/filter.slice";
 import { productListLimit } from "../utils/config";
-// import { IProducts } from "../types/product.type";
+import useGetProducts from "../hooks/useGetProducts";
+import { IProducts } from "../types/product.type";
 
 export const ProductList: React.FC = () => {
   const [page, setPage] = React.useState<number>(1);
-  // const [product, setProduct] = React.useState<IProducts[]>([]);
+  const [product, setProduct] = React.useState<IProducts[]>([]);
 
   const dispatch = useAppDispatch();
 
   const getFilters = useAppSelector((state) => state.filter);
-  // const getProduct = useAppSelector((state) => state.products);
 
-  const getProductList = useQuery({
-    queryKey: ["get-products", page],
-    queryFn: async () => {
-      const res = await getProducts({
-        limit: productListLimit,
-        skip: page * productListLimit - productListLimit,
-      });
-      dispatch(filterActions.getFilters(res));
-      console.log(res);
-      return res;
-    },
-    refetchOnWindowFocus: false,
-    retry: 1,
-    // keepPreviousData: true,
-  });
+  const getProducts = useGetProducts(productListLimit, page);
 
-  console.log(getFilters.list);
-  console.log(getFilters.filteredItems, " filtered");
-
-  // React.useEffect(() => {
-  //   if (getProductList.isSuccess && getProductList.data) {
-  //     // setProduct((prev) => [...prev, ...getProductList.data]);
-  //     setProduct([...getProduct.list, ...getProductList.data]);
-
-  //     dispatch(
-  //       productActions.getProduct([...getProduct.list, ...getProductList.data])
-  //     );
-  //     // dispatch(
-  //     //   filterActions.getFilters([
-  //     //     ...getFilters.filteredItems,
-  //     //     ...getProductList.data,
-  //     //   ])
-  //     // );
-  //   }
-  // }, [getProductList.isSuccess, getProductList.data]);
-  // console.log(product, "proalll");
-
-  // console.log(getProduct.list,"prolist");
+  React.useEffect(() => {
+    if (getProducts.isSuccess && getProducts.data) {
+      setProduct((prev) => [...prev, ...getProducts.data]);
+    }
+  }, [getProducts.isSuccess, getProducts.data]);
 
   return (
     <>
-      <main className="my-10">
-        <div className="flex gap-6 flex-wrap">
-          {getFilters.filters && getFilters.filteredItems.length > 0 ? (
+      <main className="md:my-10 px-2 md:px-0">
+        <div className="flex gap-6 flex-wrap justify-center md:justify-normal">
+          {getFilters.filters &&
+            getFilters.filteredItems.length > 0 &&
             getFilters.filteredItems.map((el) => (
               <ProductCard
                 key={el.id}
@@ -73,13 +40,14 @@ export const ProductList: React.FC = () => {
                 quantity={0}
                 addToCart={() => dispatch(productActions.addToCart(el))}
               />
-            ))
-          ) : (
+            ))}
+
+          {getFilters.filteredItems.length <= 0 && (
             <p className="font-medium">NOT FOUND PRODUCT</p>
           )}
 
-          {!getFilters.filters &&
-            getFilters.list.map((el) => (
+          {getFilters.filteredItems.length < 0 &&
+            product.map((el) => (
               <ProductCard
                 key={el.id}
                 id={el.id}
@@ -94,11 +62,11 @@ export const ProductList: React.FC = () => {
             ))}
         </div>
         <button
-          className="mt-8 border-none text-gray-600 outline-none font-semibold text-sm cursor-pointer disabled:cursor-auto"
+          className="mt-8 mx-5 md:mx-0 border-none text-gray-600 outline-none font-semibold text-sm cursor-pointer disabled:cursor-auto"
           onClick={() => setPage((prevPage) => prevPage + 1)}
-          disabled={getProductList.isLoading || getProductList.isFetching}
+          disabled={getProducts.isLoading || getProducts.isFetching}
         >
-          {getProductList.isPending ? "Loading..." : "Load More"}
+          {getProducts.isPending ? "Loading..." : "Load More"}
         </button>
       </main>
     </>

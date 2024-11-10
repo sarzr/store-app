@@ -12,7 +12,7 @@ export interface IInputForm
 const InputForm: React.FC<IInputForm> = ({ label, error, ...props }) => {
   return (
     <>
-      <div className="mt-3 w-[90%]">
+      <div className="mt-3 w-full md:w-[90%]">
         <label className="text-gray-700 text-sm font-medium pb-2 block">
           {label}
         </label>

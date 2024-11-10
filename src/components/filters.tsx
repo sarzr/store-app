@@ -2,9 +2,11 @@ import React from "react";
 import { InputFilter } from "./input-filter";
 import { IoMdAdd } from "react-icons/io";
 import { FiMinus } from "react-icons/fi";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch } from "../redux/hook";
 import { priceRanges } from "../utils/price-data";
 import { filterActions } from "../redux/features/filter.slice";
+import { FaStar } from "react-icons/fa";
+import useGetProducts from "../hooks/useGetProducts";
 
 export const Filter: React.FC = () => {
   const [isOpenBrand, setIsOpenBrand] = React.useState<boolean>(false);
@@ -13,17 +15,13 @@ export const Filter: React.FC = () => {
   const [selectedPriceRange, setSelectedPriceRange] = React.useState<
     string | null
   >(null);
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
-    null
-  );
-  const [selectedBrand, setSelectedBrand] = React.useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = React.useState<string[]>([]);
+  const [selectedBrand, setSelectedBrand] = React.useState<string[]>([]);
+  const [selectedRating, setSelectedRating] = React.useState<number>(0);
 
   const dispatch = useAppDispatch();
 
-  const filter = useAppSelector((state) => state.filter);
-
-  console.log(filter.filters, "filters");
-  console.log(filter.list, "list");
+  const getFiltersAll = useGetProducts();
 
   const toggleBrand = () => {
     setIsOpenBrand(() => !isOpenBrand);
@@ -48,35 +46,50 @@ export const Filter: React.FC = () => {
   };
 
   const brandChangeHandler = (brand: string) => {
-    if (selectedBrand === brand) {
-      setSelectedBrand(null);
-      dispatch(filterActions.setBrand(""));
-    } else {
-      setSelectedBrand(brand);
-      dispatch(filterActions.setBrand(brand));
-    }
+    setSelectedBrand((prev) => {
+      if (prev.includes(brand)) {
+        return prev.filter((b) => b !== brand);
+      } else {
+        return [...prev, brand];
+      }
+    });
   };
 
   const categoryChangeHandler = (category: string) => {
-    if (selectedCategory === category) {
-      setSelectedCategory(null);
-      dispatch(filterActions.setCategory(""));
-    } else {
-      setSelectedCategory(category);
-      dispatch(filterActions.setCategory(category));
-    }
+    setSelectedCategory((prev) => {
+      if (prev.includes(category)) {
+        return prev.filter((c) => c !== category);
+      } else {
+        return [...prev, category];
+      }
+    });
   };
 
-  const getProductFilters = useAppSelector((state) => state.filter.list);
+  const ratingChangeHandler = (rating: number) => {
+    setSelectedRating(rating);
+    dispatch(filterActions.setRating(rating));
+  };
 
-  const categories = [...new Set(getProductFilters.map((el) => el.category))];
+  const categories = [...new Set(getFiltersAll.data?.map((el) => el.category))];
 
-  const brands = [...new Set(getProductFilters.map((el) => el.brand))];
+  const brands = [...new Set(getFiltersAll.data?.map((el) => el.brand))];
+
+  React.useEffect(() => {
+    dispatch(filterActions.getFilters(getFiltersAll.data || []));
+  }, [getFiltersAll.data]);
+
+  React.useEffect(() => {
+    dispatch(filterActions.setBrand(selectedBrand));
+  }, [selectedBrand, dispatch]);
+
+  React.useEffect(() => {
+    dispatch(filterActions.setCategory(selectedCategory));
+  }, [selectedCategory, dispatch]);
 
   return (
     <>
-      <div className="bg-white w-80 h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide px-6 py-3 rounded-lg mx-4 sticky top-24">
-        <div className="flex justify-between mb-2">
+      <div className="bg-white w-80 md:h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide px-6 py-3 rounded-lg mx-4 sticky top-24">
+        <div className="flex justify-between  mb-2">
           <p className="text-lg font-medium">Brands</p>
           <button onClick={toggleBrand}>
             {isOpenBrand ? (
@@ -93,7 +106,7 @@ export const Filter: React.FC = () => {
             el && (
               <InputFilter
                 key={el}
-                checked={el === selectedBrand}
+                checked={selectedBrand.includes(el)}
                 brand={el}
                 onChange={() => brandChangeHandler(el)}
               />
@@ -116,7 +129,7 @@ export const Filter: React.FC = () => {
               <InputFilter
                 key={index}
                 category={el}
-                checked={el === selectedCategory}
+                checked={selectedCategory.includes(el!)}
                 onChange={() => categoryChangeHandler(el!)}
               />
             )
@@ -126,9 +139,7 @@ export const Filter: React.FC = () => {
           <p className="text-lg font-medium">Price</p>
           <button
             onClick={() => {
-              console.log(isOpenPrice);
               togglePrice();
-              console.log(isOpenPrice);
             }}
           >
             {isOpenPrice ? (
@@ -150,6 +161,25 @@ export const Filter: React.FC = () => {
               />
             )
         )}
+
+        <div className="flex gap-4 mt-7 mb-2">
+          <p className="text-lg font-medium">Rating</p>
+          <div className="space-y-2">
+            {[1, 2, 3, 4, 5].map((el) => (
+              <button
+                key={el}
+                className={`mx-[2px] ${
+                  el > selectedRating ? "text-gray-400" : "text-black"
+                }`}
+                onClick={() => {
+                  ratingChangeHandler(el);
+                }}
+              >
+                <FaStar />
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );

@@ -8,7 +8,6 @@ export const getProducts: getProductsType = async (params) => {
   const response = await client.get(urls.productList, {
     params: { limit: params.limit, skip: params.skip },
   });
-  console.log(response.data.products);
 
   return response.data.products;
 };
